@@ -32,6 +32,7 @@
 #include "low_precision/add.hpp"
 #include "low_precision/avg_pool.hpp"
 #include "low_precision/clamp.hpp"
+#include "low_precision/constant.hpp"
 #include "low_precision/convolution.hpp"
 #include "low_precision/depth_to_space.hpp"
 #include "low_precision/fake_quantize.hpp"
@@ -210,6 +211,9 @@ LowPrecisionTransformations LowPrecisionTransformer::getAllTransformations(const
 
         addDecomposition<pass::low_precision::FakeQuantizeDecompositionTransformation, opset1::FakeQuantize>(params).
 
+        // TODO: debug only
+        add<ConstantTransformation, opset1::Constant>(params).
+
         add<AddTransformation, opset1::Add>(params).
         add<AvgPoolTransformation, opset1::AvgPool>(params).
         add<ClampTransformation, opset1::Clamp>(params).
@@ -233,9 +237,13 @@ LowPrecisionTransformations LowPrecisionTransformer::getAllTransformations(const
         add<TransposeTransformation, opset1::Transpose>(params).
         add<UnsqueezeTransformation, opset1::Unsqueeze>(params).
 
+        // TODO: debug only
+        addCleanup<ConstantTransformation, opset1::Constant>(params).
         addCleanup<FoldConvertTransformation, opset1::Subtract>(params).
         addCleanup<FuseConvertTransformation, opset1::Multiply>(params).
 
+        // TODO: debug only
+        addStandaloneCleanup<ConstantTransformation, opset1::Constant>(params).
         addStandaloneCleanup<FuseSubtractToFakeQuantizeTransformation, opset1::Subtract>(params).
         addStandaloneCleanup<FuseMultiplyToFakeQuantizeTransformation, opset1::Multiply>(params).
         addStandaloneCleanup<MultiplyToGroupConvolutionTransformation, opset1::Multiply>(params).
