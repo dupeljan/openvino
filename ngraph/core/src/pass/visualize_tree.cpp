@@ -351,7 +351,7 @@ static std::string pretty_min_max_denormal_value(const vector<T>& values)
         }
 
         const auto abs_value = std::abs(static_cast<double>(value));
-        if (((abs_value > 0.) && (abs_value < 1.e-32)) || (abs_value > 1.e+32))
+        if (((abs_value > 0.) && (abs_value < 6.e-5)) || (abs_value > 6.e+5))
         {
             if (denormal_counts < 3)
             {
