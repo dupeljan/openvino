@@ -38,10 +38,10 @@ bool ConstantTransformation::transform(TransformationContext &context, ngraph::p
         //    wasChangedZero = true;
         //    newValues[i] = 1.f;
         //} else
-        if ((abs_value > 0.f) && (abs_value < 1.e-32)) {
+        if ((abs_value > 0.f) && (abs_value < 6.e-5)) {
             wasChangedDenormal = true;
             newValues[i] = 0.f;
-        } else if (abs_value > 1.e+32) {
+        } else if (abs_value > 6.e+5) {
             wasChangedDenormal = true;
             newValues[i] = 999.f;
         } else {

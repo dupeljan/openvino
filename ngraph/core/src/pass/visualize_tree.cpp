@@ -383,11 +383,7 @@ static std::string pretty_min_max_denormal_value(const vector<T>& values)
 }
 
 template <typename T>
-<<<<<<< HEAD
 static std::string pretty_value(const vector<T>& values, size_t max_elements)
-=======
-static std::string pretty_value(const vector<T>& values)
->>>>>>> [NGraph] VisualizeTree denormal visualization
 {
     const std::string additional_ss = getenv_bool("NGRAPH_VISUALIZE_TREE_MIN_MAX_DENORMAL")
                                           ? pretty_min_max_denormal_value(values)
@@ -396,7 +392,6 @@ static std::string pretty_value(const vector<T>& values)
     std::stringstream ss;
     for (size_t i = 0; i < values.size(); ++i)
     {
-<<<<<<< HEAD
         if (i < max_elements)
         {
             if (i != 0 && i % 8 == 0)
@@ -405,9 +400,6 @@ static std::string pretty_value(const vector<T>& values)
             }
         }
         else
-=======
-        if (i > 31)
->>>>>>> [NGraph] VisualizeTree denormal visualization
         {
             if (!additional_ss.empty())
             {
@@ -423,24 +415,12 @@ static std::string pretty_value(const vector<T>& values)
         ss << value;
     }
 
-<<<<<<< HEAD
     const std::string additional_ss = getenv_bool("NGRAPH_VISUALIZE_TREE_MIN_MAX_DENORMAL")
                                           ? pretty_min_max_denormal_value(values)
                                           : "";
     if (!additional_ss.empty())
     {
         ss << std::endl << "(" << additional_ss << ")";
-=======
-        if (((i + 1) % 8) == 0)
-        {
-            if (i != 31)
-                ss << std::endl;
-            if (i >= 31)
-                ss << "...";
-        }
-
-        first = false;
->>>>>>> [NGraph] VisualizeTree denormal visualization
     }
     return ss.str();
 }

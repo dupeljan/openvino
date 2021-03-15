@@ -72,6 +72,7 @@
 #include <ngraph/opsets/opset6.hpp>
 #include <ngraph/op/util/op_types.hpp>
 #include <ngraph/pass/manager.hpp>
+#include <ngraph/pass/visualize_tree.hpp>
 
 #include <transformations/common_optimizations/lin_op_sequence_fusion.hpp>
 
@@ -294,6 +295,8 @@ static void Transformation(CNNNetwork& clonedNetwork, const Config& conf) {
 
     manager.run_passes(nGraphFunc);
 
+    ngraph::pass::VisualizeTree("/home/dlyakhov/common_tranf.png").run_on_function(nGraphFunc);
+
     using namespace ngraph::pass::low_precision;
     if (useLpt) {
         OV_ITT_SCOPED_TASK(MKLDNNPlugin::itt::domains::MKLDNN_LT, "LowPrecisionTransformations");
@@ -305,6 +308,8 @@ static void Transformation(CNNNetwork& clonedNetwork, const Config& conf) {
         lptPrerequisites->add_matcher<PullTransposeThroughDequantization>(supportedTypes);
         lptPrerequisites->add_matcher<ngraph::pass::LinOpSequenceFusion>();
         manager.run_passes(nGraphFunc);
+
+        //ngraph::pass::VisualizeTree("/home/dlyakhov/lpt_tranf.png").run_on_function(nGraphFunc);
 
         auto params = LayerTransformation::Params(
             true,  // updatePrecisions
@@ -358,6 +363,8 @@ static void Transformation(CNNNetwork& clonedNetwork, const Config& conf) {
     });
 
     legacyManager.run_passes(nGraphFunc);
+
+    //ngraph::pass::VisualizeTree("/home/dlyakhov/legacy_tranf.png").run_on_function(nGraphFunc);
 
     OV_ITT_TASK_CHAIN(taskChain, MKLDNNPlugin::itt::domains::MKLDNN_LT, "Transformation", "convertFunctionToICNNNetwork");
 

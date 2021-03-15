@@ -134,7 +134,7 @@ std::shared_ptr<opset1::FakeQuantize> FakeQuantizeTransformation::fuseElementwis
         }
 
         //// avoid division by zero
-        //if (std::any_of(valueVec.cbegin(), valueVec.cend(), [](const float value) { return (value == 0.f) || (std::abs(value) < 1.e-32); })) {
+        //if (std::any_of(valueVec.cbegin(), valueVec.cend(), [](const float value) { return (value == 0.f) || (std::abs(value) < 6.e-5); })) {
         //    return nullptr;
         //}
 
@@ -151,11 +151,11 @@ std::shared_ptr<opset1::FakeQuantize> FakeQuantizeTransformation::fuseElementwis
                     wasChangedZero = true;
                     newValueVec[i] = 0.01f;
                 }
-                else if ((abs_value > 0.f) && (abs_value < 1.e-32)) {
+                else if ((abs_value > 0.f) && (abs_value < 6.e-5)) {
                     wasChangedDenormal = true;
                     newValueVec[i] = 0.01f;
                 }
-                else if (abs_value > 1.e+32) {
+                else if (abs_value > 6.e+5) {
                     wasChangedDenormal = true;
                     newValueVec[i] = 99.f;
                 }

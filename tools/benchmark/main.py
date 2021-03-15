@@ -258,6 +258,8 @@ def run(args):
             if batch_size == 0:
                 batch_size = 1
 
+        #---------------------- DEBUG close benchmark-
+        exit()
         # --------------------- 8. Setting optimal runtime parameters --------------------------------------------------
         next_step()
 
