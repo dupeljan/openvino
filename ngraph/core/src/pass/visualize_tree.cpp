@@ -147,7 +147,7 @@ static std::string label_edge(const std::shared_ptr<Node>& /* src */,
                               int64_t jump_distance)
 {
     std::stringstream ss;
-    if (getenv_bool("NGRAPH_VISUALIZE_EDGE_LABELS"))
+    if (true)//getenv_bool("NGRAPH_VISUALIZE_EDGE_LABELS"))
     {
         size_t output = 0;
         stringstream label_edge;
@@ -155,7 +155,7 @@ static std::string label_edge(const std::shared_ptr<Node>& /* src */,
         ss << label_edge.str();
     }
 
-    else if (getenv_bool("NGRAPH_VISUALIZE_EDGE_JUMP_DISTANCE"))
+    else if (true)//getenv_bool("NGRAPH_VISUALIZE_EDGE_JUMP_DISTANCE"))
     {
         if (jump_distance > 1)
         {
@@ -385,9 +385,8 @@ static std::string pretty_min_max_denormal_value(const vector<T>& values)
 template <typename T>
 static std::string pretty_value(const vector<T>& values, size_t max_elements)
 {
-    const std::string additional_ss = getenv_bool("NGRAPH_VISUALIZE_TREE_MIN_MAX_DENORMAL")
-                                          ? pretty_min_max_denormal_value(values)
-                                          : "";
+    const std::string additional_ss = pretty_min_max_denormal_value(values); //getenv_bool("NGRAPH_VISUALIZE_TREE_MIN_MAX_DENORMAL")
+                                           
 
     std::stringstream ss;
     for (size_t i = 0; i < values.size(); ++i)
@@ -415,9 +414,6 @@ static std::string pretty_value(const vector<T>& values, size_t max_elements)
         ss << value;
     }
 
-    const std::string additional_ss = getenv_bool("NGRAPH_VISUALIZE_TREE_MIN_MAX_DENORMAL")
-                                          ? pretty_min_max_denormal_value(values)
-                                          : "";
     if (!additional_ss.empty())
     {
         ss << std::endl << "(" << additional_ss << ")";
@@ -486,9 +482,9 @@ string pass::VisualizeTree::get_attributes(shared_ptr<Node> node)
         stringstream label;
         label << "label=\"" << get_node_name(node);
 
-        static const bool nvtos = getenv_bool("NGRAPH_VISUALIZE_TREE_OUTPUT_SHAPES");
-        static const bool nvtot = getenv_bool("NGRAPH_VISUALIZE_TREE_OUTPUT_TYPES");
-        static const bool nvtio = getenv_bool("NGRAPH_VISUALIZE_TREE_IO");
+        static const bool nvtos = true;//getenv_bool("NGRAPH_VISUALIZE_TREE_OUTPUT_SHAPES");
+        static const bool nvtot = true;//getenv_bool("NGRAPH_VISUALIZE_TREE_OUTPUT_TYPES");
+        static const bool nvtio = true;//getenv_bool("NGRAPH_VISUALIZE_TREE_IO");
 
         if (nvtos || nvtot || nvtio)
         {
@@ -538,7 +534,7 @@ string pass::VisualizeTree::get_attributes(shared_ptr<Node> node)
 
 string pass::VisualizeTree::get_node_name(shared_ptr<Node> node)
 {
-    static const bool nvtmn = getenv_bool("NGRAPH_VISUALIZE_TREE_MEMBERS_NAME");
+    static const bool nvtmn = true;//getenv_bool("NGRAPH_VISUALIZE_TREE_MEMBERS_NAME");
     string rc = (nvtmn ? string("friendly_name: ") : "") + node->get_friendly_name();
     if (node->get_friendly_name() != node->get_name())
     {
@@ -546,7 +542,7 @@ string pass::VisualizeTree::get_node_name(shared_ptr<Node> node)
     }
     rc += "\\n" + (nvtmn ? string("type_name: ") : "") + std::string(node->get_type_name());
 
-    static const bool nvtrti = getenv_bool("NGRAPH_VISUALIZE_TREE_RUNTIME_INFO");
+    static const bool nvtrti = true;//getenv_bool("NGRAPH_VISUALIZE_TREE_RUNTIME_INFO");
     if (nvtrti)
     {
         const auto rt = node->get_rt_info();
